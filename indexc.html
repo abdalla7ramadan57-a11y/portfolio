@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdullah Ramadan - Multimedia Specialist</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons for social media and service cards -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --primary-text: #E5E7EB; /* Gray 200 */
+            --highlight-color: #9333ea; /* Violet 600 */
+            --icon-bg: rgba(45, 20, 100, 0.7); /* Dark semi-transparent background for icons */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Pure black background */
+            color: var(--primary-text);
+            /* Add a subtle blurred background effect to simulate the original image */
+            background-image: radial-gradient(circle at 50% 10%, rgba(20, 20, 30, 0.9) 0%, rgba(0, 0, 0, 1) 70%);
+            min-height: 100vh;
+        }
+
+        /* NEW: Highlight Box Style - Soft rounded background for key text */
+        .highlight-box {
+            background-color: rgba(147, 51, 234, 0.2); /* Violet/Highlight color with transparency */
+            padding: 2px 6px;
+            border-radius: 6px; /* Soft rounded corners */
+            white-space: nowrap; /* Prevent phrase from breaking onto next line if possible */
+            font-weight: 600; /* Make highlighted text a bit bolder */
+            color: var(--primary-text);
+            display: inline; /* Ensure it flows naturally with the text */
+            transition: background-color 0.3s ease; /* Optional subtle transition */
+        }
+
+        /* Keyframes for slow vertical floating/wiggle animation (for the software icons) */
+        @keyframes float-wiggle {
+            0%, 100% {
+                /* Preserve rotation using the custom property --initial-rotate */
+                transform: translateY(0) rotate(var(--initial-rotate, 0deg));
+            }
+            50% {
+                /* Move up 10px in the middle of the cycle */
+                transform: translateY(-10px) rotate(var(--initial-rotate, 0deg));
+            }
+        }
+
+        /* Keyframes for the Blur-In/Fade-In animation (Motion Blur effect) */
+        @keyframes blur-in {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+                filter: blur(10px); /* Start heavily blurred */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0); /* End perfectly clear */
+            }
+        }
+        
+        /* NEW KEYFRAMES: Slide-In from Right with Motion Blur */
+        @keyframes slide-in-right {
+            0% {
+                opacity: 0;
+                transform: translateX(100px); /* Start 100px to the right */
+                filter: blur(10px); /* Heavy blur at the start */
+            }
+            50% {
+                opacity: 0.5;
+                transform: translateX(30px); /* Move towards the center, intermediate blur */
+                filter: blur(5px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0); /* End at final position */
+                filter: blur(0); /* No blur at the end */
+            }
+        }
+
+        /* Classes to apply the staggered animation to the content blocks */
+        .animate-blur-in-1 { animation: blur-in 1.2s ease-out forwards; animation-delay: 0.5s; opacity: 0; } 
+        .animate-blur-in-2 { animation: blur-in 1.2s ease-out forwards; animation-delay: 1s; opacity: 0; } 
+        .animate-blur-in-3 { animation: blur-in 1.2s ease-out forwards; animation-delay: 1.5s; opacity: 0; } 
+        .animate-blur-in-4 { animation: blur-in 1.2s ease-out forwards; animation-delay: 1.8s; opacity: 0; } 
+        .animate-blur-in-5 { animation: blur-in 1.2s ease-out forwards; animation-delay: 2.1s; opacity: 0; } 
+        .animate-blur-in-6 { animation: blur-in 1.2s ease-out forwards; animation-delay: 2.4s; opacity: 0; } 
+        .animate-blur-in-7 { animation: blur-in 1.2s ease-out forwards; animation-delay: 2.7s; opacity: 0; } 
+        .animate-blur-in-8 { animation: blur-in 1.2s ease-out forwards; animation-delay: 3.0s; opacity: 0; } 
+        .animate-blur-in-9 { animation: blur-in 1.2s ease-out forwards; animation-delay: 3.3s; opacity: 0; } 
+        .animate-blur-in-10 { animation: blur-in 1.2s ease-out forwards; animation-delay: 3.6s; opacity: 0; } 
+        .animate-blur-in-11 { animation: blur-in 1.2s ease-out forwards; animation-delay: 3.9s; opacity: 0; } 
+        .animate-blur-in-12 { animation: blur-in 1.2s ease-out forwards; animation-delay: 4.2s; opacity: 0; } 
+        .animate-blur-in-13 { animation: blur-in 1.2s ease-out forwards; animation-delay: 4.5s; opacity: 0; } 
+        .animate-blur-in-14 { animation: blur-in 1.2s ease-out forwards; animation-delay: 4.8s; opacity: 0; } /* New animation for Contact section */
+
+
+        /* NEW: Class for the expertise tags animation */
+        .expertise-tag-item {
+            /* Initial state before animation starts */
+            opacity: 0;
+            transform: translateX(100px);
+            /* Apply the animation here, but the delay will be set dynamically via JS */
+            animation: slide-in-right 0.8s ease-out forwards;
+        }
+
+        
+        /* ------------------------------------------------------------------ */
+        /* Fixed Glass Social Media Icons Styles (Desktop Only)          */
+        /* ------------------------------------------------------------------ */
+        .social-icons-fixed-container {
+            position: fixed; 
+            left: 1rem; 
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem; 
+        }
+
+        /* Style for individual glass icons (the circle container) */
+        .social-icon-glass {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px; 
+            height: 44px; 
+            border-radius: 50%; 
+            background-color: rgba(255, 255, 255, 0.08); 
+            backdrop-filter: blur(8px); 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+            transition: background-color 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+
+        .social-icon-glass:hover {
+            background-color: rgba(255, 255, 255, 0.15); 
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1); 
+            box-shadow: 0 8px 20px rgba(147, 51, 234, 0.5); 
+        }
+
+        /* Icon color inside the glass container */
+        .social-icon-glass i {
+            color: #E5E7EB; 
+            font-size: 1.25rem;
+        }
+        /* ------------------------------------------------------------------ */
+        
+        /* Styling for the glow icons */
+        .glow-icon {
+            position: absolute;
+            background: var(--icon-bg);
+            border-radius: 20%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            padding: 0.75rem;
+            width: 80px;
+            height: 80px;
+            /* Apply the glow effect */
+            box-shadow: var(--neon-purple);
+            opacity: 0.85;
+            /* Apply the float-wiggle animation */
+            animation: float-wiggle 4s ease-in-out infinite;
+        }
+        /* ... (Specific glow icon positions remain the same) ... */
+        .glow-icon-ps {
+            --initial-rotate: 10deg; /* Set initial rotation variable */
+            right: 10%; /* Position relative to the right edge (near the image) */
+            top: 25%;
+            background-color: rgba(50, 20, 80, 0.8);
+            box-shadow: 0 0 15px #6366f1, 0 0 30px #6366f1; /* Indigo Glow */
+            transform: rotate(var(--initial-rotate)); /* Apply initial rotation */
+            animation-delay: 0s; /* Start immediately */
+        }
+
+        .glow-icon-ae {
+            --initial-rotate: -10deg; /* Set initial rotation variable */
+            right: 25%;
+            bottom: 15%;
+            background-color: rgba(60, 20, 60, 0.8);
+            box-shadow: 0 0 15px #a855f7, 0 0 30px #a855f7; /* Violet Glow */
+            transform: rotate(var(--initial-rotate)); /* Apply initial rotation */
+            animation-delay: 1.5s; /* Stagger the animation start */
+        }
+
+        .glow-icon-pr {
+            --initial-rotate: 5deg; /* Set initial rotation variable */
+            right: 5%;
+            bottom: 5%;
+            background-color: rgba(70, 20, 40, 0.8);
+            box-shadow: 0 0 15px #ec4899, 0 0 30px #ec4899; /* Pink Glow */
+            transform: rotate(var(--initial-rotate)); /* Apply initial rotation */
+            animation-delay: 3s; /* Stagger the animation start */
+        }
+
+        .glow-icon-other {
+            /* Other small icon glow - simulating the small icon at the top right */
+            right: 28%;
+            top: 15%;
+            width: 50px;
+            height: 50px;
+            font-size: 1rem;
+            background-color: rgba(20, 60, 80, 0.8);
+            box-shadow: 0 0 10px #06b6d4, 0 0 20px #06b6d4; /* Cyan Glow */
+            border-radius: 50%;
+            padding: 0.5rem;
+            animation: float-wiggle 4s ease-in-out infinite; /* Apply the float-wiggle animation */
+            animation-delay: 2.5s; /* Stagger the animation start */
+        }
+
+        /* The generic social icon hover style is kept for the mobile bar */
+        .social-icon {
+            transition: color 0.3s, transform 0.3s;
+        }
+        .social-icon:hover {
+            color: #ffffff;
+            transform: scale(1.1);
+        }
+
+        /* Sizing and centering the profile image */
+        .profile-img-container {
+            position: relative;
+            z-index: 10;
+        }
+        .profile-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.75rem;
+            object-fit: cover;
+            /* Simulate image lighting */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Button styling - adding interactive hover effect */
+        .cta-button {
+            padding: 0.75rem 2rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
+            transform: scale(1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Initial shadow for depth */
+            /* Ensure anchor tags acting as buttons look good */
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .cta-button:hover {
+            transform: scale(1.03); /* Slight scale up on hover */
+        }
+        /* Specific shadow for white button hover */
+        .cta-button.bg-white:hover {
+            box-shadow: 0 8px 15px rgba(255, 255, 255, 0.3);
+        }
+        /* Specific shadow for dark/blue button hover (using the highlight color) */
+        .cta-button.bg-transparent:hover, .cta-button.bg-blue-500:hover {
+             box-shadow: 0 8px 15px rgba(147, 51, 234, 0.3); /* Purple/Highlight color shadow */
+        }
+
+        /* Styling for the '7+ Years' badge in the About section */
+        .years-badge {
+            background-color: rgba(20, 20, 30, 0.7);
+            backdrop-filter: blur(5px);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* ------------------------------------------------------------------ */
+        /* Reels Section Specific Styles                                 */
+        /* ------------------------------------------------------------------ */
+        .reels-section-bg {
+            background-image: radial-gradient(circle at 50% 100px, rgba(147, 51, 234, 0.1) 0%, rgba(0, 0, 0, 0) 60%);
+            border-top: 1px solid rgba(147, 51, 234, 0.1); 
+        }
+
+        /* Container for the reels, enabling horizontal scroll and snap effect */
+        .reels-container {
+            display: flex;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory; 
+            gap: 1.5rem;
+            padding: 1rem 0; 
+            /* Hide the default scrollbar */
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+        .reels-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Style for the vertical video card container */
+        .reel-card {
+            width: 250px; 
+            height: 450px; 
+            flex-shrink: 0;
+            border-radius: 1.5rem; 
+            overflow: hidden;
+            position: relative;
+            background-color: #1a1a1a; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            scroll-snap-align: start; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .reel-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4); 
+        }
+
+        /* Glass Scroll Button Style */
+        .glass-scroll-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, opacity 0.3s;
+            z-index: 30; 
+            opacity: 0.9;
+        }
+
+        .glass-scroll-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.05);
+            opacity: 1;
+        }
+        
+        /* Specific positioning for the right button */
+        #scroll-right-button {
+            right: 1rem;
+            margin-right: 1rem; 
+        }
+        
+        /* Specific positioning for the left button */
+        #scroll-left-button {
+            left: 1rem;
+            margin-left: 1rem; 
+        }
+
+        /* Navigation Dots */
+        .nav-dots > span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #4b5563; /* Gray 600 */
+            margin: 0 4px;
+            transition: background-color 0.3s, width 0.3s, height 0.3s; 
+        }
+        .nav-dots > span.active {
+            background-color: var(--highlight-color); /* Violet for active dot */
+            width: 10px;
+            height: 10px;
+        }
+        /* ------------------------------------------------------------------ */
+
+        /* ------------------------------------------------------------------ */
+        /* Services & Portfolio Sections Specific Styles                    */
+        /* ------------------------------------------------------------------ */
+        .services-section-bg {
+             /* Stronger purple gradient from the bottom of the section */
+            background-image: radial-gradient(circle at 50% 100%, rgba(147, 51, 234, 0.15) 0%, rgba(0, 0, 0, 0) 50%);
+            border-top: 1px solid rgba(147, 51, 234, 0.1); 
+        }
+
+        /* --- Glassmorphism Style for Service and Portfolio Cards --- */
+        .service-card, .portfolio-card {
+            /* Changed background to transparent/semi-transparent white */
+            background-color: rgba(255, 255, 255, 0.05); 
+            /* Added the key Glassmorphism feature: Backdrop Filter Blur */
+            backdrop-filter: blur(15px); 
+            
+            border-radius: 1.5rem;
+            padding: 2rem;
+            /* Border uses transparent white */
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            position: relative;
+            overflow: hidden;
+            height: 100%; /* Ensure all cards have the same height */
+        }
+
+        /* Hover effect with a subtle glow */
+        .service-card:hover, .portfolio-card:hover {
+            transform: translateY(-5px);
+            /* Slightly more transparent white on hover */
+            background-color: rgba(255, 255, 255, 0.1); 
+            box-shadow: 0 15px 40px rgba(147, 51, 234, 0.5); /* Violet glow effect */
+        }
+        
+        /* Glow inside the card */
+        .service-card::before, .portfolio-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Kept the radial gradient glow for depth */
+            background: radial-gradient(circle at 0% 0%, rgba(147, 51, 234, 0.1) 0%, rgba(0, 0, 0, 0) 40%);
+            pointer-events: none;
+            transition: opacity 0.3s;
+            opacity: 0.5;
+        }
+
+        /* Icon styling with background and glow (for Service Cards) */
+        .service-icon {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            /* Apply a glow to the icon background */
+            box-shadow: 0 0 10px rgba(147, 51, 234, 0.8);
+            backdrop-filter: blur(5px);
+            /* Icon background remains slightly colored */
+            background-color: rgba(147, 51, 234, 0.2);
+            border: 1px solid rgba(147, 51, 234, 0.5);
+        }
+        
+        /* Specific glow for the Live Event card (First card) */
+        .service-card:first-child .service-icon {
+            box-shadow: 0 0 15px rgba(79, 70, 229, 0.8); /* Indigo Glow */
+            background-color: rgba(79, 70, 229, 0.2);
+            border: 1px solid rgba(79, 70, 229, 0.5);
+        }
+
+        .view-more-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--highlight-color);
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .view-more-link:hover {
+            color: #ffffff;
+            transform: translateX(5px);
+        }
+
+        /* Portfolio Card Specific Styles - MODIFIED TO BE SQUARE IMAGE */
+        .portfolio-image-container {
+            border-radius: 0.75rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            position: relative;
+            
+            /* --- CRITICAL: Enforce 1:1 Aspect Ratio (Square) --- */
+            width: 100%; /* Must be 100% of parent width */
+            height: 0; /* Remove fixed height */
+            padding-bottom: 100%; /* Height is 100% of the width (1:1 aspect ratio) */
+            /* ---------------------------------------------------- */
+            
+            background-color: #1a1a1a;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .portfolio-image-container img {
+            /* Image is positioned absolutely to fill the 1:1 container */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .portfolio-card:hover .portfolio-image-container img {
+            transform: scale(1.05); /* Zoom effect on hover */
+        }
+        
+        /* Tag styling inside portfolio cards */
+        .portfolio-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin-right: 0.5rem;
+            border-radius: 9999px; /* Full rounded pill shape */
+            font-size: 0.75rem;
+            font-weight: 500;
+            background-color: rgba(147, 51, 234, 0.2); /* Violet transparent background */
+            color: var(--primary-text);
+            border: 1px solid rgba(147, 51, 234, 0.4);
+        }
+
+        /* ------------------------------------------------------------------ */
+        /* Contact Section Specific Styles - NEW                              */
+        /* ------------------------------------------------------------------ */
+        
+        /* Container for the whole contact section to add the background gradient */
+        .contact-section-bg {
+             /* Use a radial gradient for the background glow effect */
+            background-image: radial-gradient(circle at 100% 50%, rgba(147, 51, 234, 0.2) 0%, rgba(0, 0, 0, 0) 40%);
+            /* Add a subtle top border for separation */
+            border-top: 1px solid rgba(147, 51, 234, 0.1); 
+        }
+
+        /* Form Container - Large card background (Darker than the body) */
+        .form-container {
+            background-color: #0b0b14; /* Very dark blue/black background for the form area */
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Input/Textarea Fields */
+        .contact-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            /* Dark input background */
+            background-color: #1a1a2e; 
+            color: var(--primary-text);
+            border: 1px solid #374151; /* Dark gray border */
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        /* Input Focus State - Highlight with violet glow */
+        .contact-input:focus {
+            outline: none;
+            border-color: var(--highlight-color); /* Violet border */
+            box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.3); /* Violet ring/glow */
+        }
+
+        /* Info Card Container (Phone, Mail, Location) - Glassmorphism style */
+        .info-card {
+            background-color: rgba(255, 255, 255, 0.05); /* Lighter Glass background */
+            backdrop-filter: blur(15px); 
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 1.5rem;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .info-card:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Icon styling inside info cards */
+        .info-icon {
+            color: var(--highlight-color); /* Violet icon color */
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        /* Responsive adjustments for mobile screens */
+        @media (max-width: 768px) {
+            .hero-section-grid {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .hero-text {
+                padding-top: 2rem;
+                padding-left: 0;
+            }
+            /* Styling for the mobile social bar when visible */
+            .social-icons-bar {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                width: 100%;
+                margin-bottom: 2rem;
+                position: relative !important; /* Override fixed positioning for mobile */
+                transform: none !important;
+                left: 0 !important;
+            }
+            .social-icons-bar > a {
+                margin: 0 0.5rem;
+            }
+            .glow-icon {
+                display: none; /* Hide glow icons on small screens for clarity */
+            }
+            .about-image-container {
+                order: 1;
+                margin-bottom: 2rem;
+            }
+            .about-content {
+                order: 2;
+                text-align: center;
+            }
+            .expertise-grid {
+                justify-content: center;
+            }
+            /* Reels mobile specific adjustments */
+            .reel-card {
+                width: 220px; 
+                height: 420px;
+            }
+            .glass-scroll-button {
+                display: none; /* Hide buttons on mobile, rely on touch scroll */
+            }
+            /* Services grid stacking on mobile */
+            .services-grid, .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            /* Contact form stacking on mobile */
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-container {
+                padding: 1.5rem;
+            }
+            .contact-form-row {
+                flex-direction: column;
+                gap: 1rem; /* Add space between stacked inputs */
+            }
+        }
+        /* Grid for services on desktop */
+        .services-grid, .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        /* Grid for contact section on desktop */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 3fr 2fr; /* 60% for form, 40% for info cards */
+            gap: 3rem;
+        }
+
+
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .services-grid, .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- 1. Navigation Bar (No animation needed, should load instantly) -->
+    <header class="p-4 md:p-6 flex justify-center sticky top-0 z-50">
+        <nav class="bg-gray-900/50 backdrop-blur-sm rounded-full p-2 flex space-x-4 border border-gray-700/50">
+            <a href="#home" class="text-white hover:bg-gray-700/50 px-4 py-2 rounded-full transition duration-300 text-sm md:text-base">Home</a>
+            <a href="#about" class="text-white hover:bg-gray-700/50 px-4 py-2 rounded-full transition duration-300 text-sm md:text-base">About</a>
+            <a href="#services" class="text-white hover:bg-gray-700/50 px-4 py-2 rounded-full transition duration-300 text-sm md:text-base">Services</a>
+            <a href="#portfolio" class="text-white hover:bg-gray-700/50 px-4 py-2 rounded-full transition duration-300 text-sm md:text-base">Portfolio</a>
+            <a href="#contact" class="text-white hover:bg-gray-700/50 px-4 py-2 rounded-full transition duration-300 text-sm md:text-base">Contact</a>
+        </nav>
+    </header>
+
+    <!-- 2. Hero Section (HOME) -->
+    <main class="container mx-auto px-4 py-12 md:py-20 relative overflow-hidden">
+        
+        <!-- Fixed Social Media Icons Bar (Desktop Only) with Glass Effect -->
+        <div class="social-icons-fixed-container hidden md:flex animate-blur-in-3">
+            <a href="#" class="social-icon-glass" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="#" class="social-icon-glass" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="social-icon-glass" aria-label="TikTok">
+                <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="#" class="social-icon-glass" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
+
+        <section id="home" class="flex flex-col md:flex-row items-center md:items-start justify-between hero-section-grid mb-40">
+
+            <!-- Left Column (Text Content) -->
+            <div class="w-full md:w-1/2 lg:w-2/5 order-1 hero-text md:pl-12 text-center md:text-left">
+                <!-- Applied Animation 1 -->
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-4 leading-tight animate-blur-in-1">
+                    Hi I'm <span class="text-white drop-shadow-lg" style="text-shadow: 0 0 5px #f0f9ff, 0 0 10px #f0f9ff;">Abdullah Ramadan</span>
+                </h1>
+                <!-- Applied Animation 2 -->
+                <p class="text-lg md:text-xl text-gray-300 mb-8 font-light animate-blur-in-2">
+                    A Multimedia Specialist With 7+ Years Of Experience In Video Editing, Shooting, Motion Graphics, And Creative Direction.
+                </p>
+
+                <!-- Call-to-Action Buttons - Applied Animation 3 -->
+                <div class="flex flex-col sm:flex-row justify-center md:justify-start space-y-4 sm:space-y-0 sm:space-x-4 animate-blur-in-3">
+                    
+                    <!-- تم تعديل هذا الزر ليصبح رابطًا يمرر الصفحة إلى قسم التواصل (#contact) -->
+                    <a href="#contact" class="cta-button bg-white text-black hover:bg-gray-200 transition duration-300 shadow-lg hover:shadow-xl">
+                        Contact me
+                    </a>
+                    <button class="cta-button bg-transparent text-white border border-gray-600 hover:border-white hover:bg-white/10 transition duration-300">
+                        View Work
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column (Image and Glow Icons) - Applied Animation 3 to the container -->
+            <div class="w-full md:w-1/2 lg:w-3/5 order-2 profile-img-container animate-blur-in-3">
+                <!-- Software Glow Icons (positioned relative to the screen space) -->
+                <div class="hidden md:block absolute inset-0">
+                    <!-- C icon (e.g., Cinema 4D) -->
+                    <div class="glow-icon-other flex items-center justify-center absolute right-[35%] top-[15%]">
+                        <span class="text-xs">C</span>
+                    </div>
+                    <!-- Ps icon (Photoshop) -->
+                    <div class="glow-icon glow-icon-ps flex items-center justify-center absolute right-[10%] top-[25%]">Ps</div>
+                    <!-- Ae icon (After Effects) -->
+                    <div class="glow-icon glow-icon-ae flex items-center justify-center absolute right-[25%] bottom-[15%]">Ae</div>
+                    <!-- Pr icon (Premiere Pro) -->
+                    <div class="glow-icon glow-icon-pr flex items-center justify-center absolute right-[5%] bottom-[5%]">Pr</div>
+                </div>
+
+                <img
+                    src="https://placehold.co/400x500/000000/ffffff?text=Professional%20Photo"
+                    alt="Abdullah Ramadan Profile Photo"
+                    class="mx-auto profile-img w-full max-w-sm md:max-w-md lg:max-w-lg relative z-20"
+                    onerror="this.onerror=null; this.src='https://placehold.co/400x500/1f2937/ffffff?text=Your+Image+Here';"
+                >
+            </div>
+
+
+            <!-- Social Media Icons (Mobile Only) - Applied Animation 3 -->
+            <div class="social-icons-bar md:hidden mt-8 animate-blur-in-3">
+                <a href="#" class="social-icon text-gray-400 hover:text-white mx-3" aria-label="LinkedIn"><i class="fab fa-linkedin-in text-2xl"></i></a>
+                <a href="#" class="social-icon text-gray-400 hover:text-white mx-3" aria-label="Facebook"><i class="fab fa-facebook-f text-2xl"></i></a>
+                <a href="#" class="social-icon text-gray-400 hover:text-white mx-3" aria-label="TikTok"><i class="fab fa-tiktok text-2xl"></i></a>
+                <a href="#" class="social-icon text-gray-400 hover:text-white mx-3" aria-label="Instagram"><i class="fab fa-instagram text-2xl"></i></a>
+            </div>
+
+        </section>
+
+        <!-- 3. About Section -->
+        <section id="about" class="flex flex-col md:flex-row items-center justify-between py-12 md:py-20">
+
+            <!-- Left Column: Image with Text Overlay - Applied Animation 4 -->
+            <div class="w-full md:w-1/2 lg:w-3/5 md:pr-12 about-image-container relative animate-blur-in-4">
+                <div class="relative max-w-lg mx-auto md:mx-0">
+                    <img
+                        src="https://placehold.co/400x600/101018/ffffff?text=Abdullah+On+Shoot"
+                        alt="Abdullah Ramadan working with a camera"
+                        class="w-full h-auto rounded-xl object-cover shadow-xl"
+                        style="filter: brightness(0.95);"
+                        onerror="this.onerror=null; this.src='https://placehold.co/400x600/1f2937/ffffff?text=Your+Image+Here';"
+                    >
+                    <!-- Floating Text Overlay (Multimedia Specialist) -->
+                    <div class="absolute inset-0 flex items-center justify-center p-4">
+                        <p class="text-4xl sm:text-5xl md:text-6xl font-black text-white/50 tracking-wider leading-none select-none" style="text-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                            <span class="block">MULTI</span><span class="block">MEDIA</span><span class="block">SPECIALIST</span>
+                        </p>
+                    </div>
+                    <!-- 7+ Years Badge -->
+                    <div class="years-badge absolute bottom-4 left-4 text-white text-xl font-bold">
+                        7+ Years
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Text Content and Stats -->
+            <div class="w-full md:w-1/2 lg:w-2/5 about-content md:pl-12 mt-10 md:mt-0">
+                <!-- Headers and Bio Text - Applied Animation 5 -->
+                <p class="text-sm uppercase tracking-widest text-gray-500 mb-2 animate-blur-in-5">Who is Abdullah Ramadan?</p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-6 animate-blur-in-5">About Me</h2>
+
+                <!-- Main Bio Paragraph with Highlights -->
+                <p class="text-base text-gray-400 mb-8 leading-relaxed animate-blur-in-5">
+                    I'm Abdullah Ramadan, a guy who started at 17 with nothing but a mobile phone and a whole lot of curiosity. As you probably know by now, I never followed any traditional path. I learned by doing, by messing up, figuring things out, and just showing up every day. For the past 7 years, I've worked with more than 
+                    <span class="highlight-box">425 clients</span> and finished more than <span class="highlight-box">1000 projects</span> to this moment. 
+                    Every single one taught me something new, and every step helped me grow. Now, I'm starting my journey into content creation with a singular purpose: simplifying the production journey for others and assisting all of you in navigating a sometimes confusing world. SO YEAH, welcome again to my space. So, if you're reading this sentence, let's keep it going and work together.
+                </p>
+
+                <!-- Stats Section (with Counting Animation) - Applied Animation 6 -->
+                <div class="flex space-x-4 mb-10 animate-blur-in-6" id="stats-counters">
+                    <!-- Projects Completed Counter -->
+                    <div class="p-4 bg-gray-900 rounded-lg w-1/2 text-center border border-gray-700/50">
+                        <p class="text-3xl font-bold text-white mb-1">
+                            <!-- The element to be counted: starts at 0 and counts up to 1025 -->
+                            <span class="counter-number" data-target="1025">0</span>+
+                        </p>
+                        <p class="text-sm text-gray-400">Projects Completed</p>
+                    </div>
+                    <!-- Happy Clients Counter -->
+                    <div class="p-4 bg-gray-900 rounded-lg w-1/2 text-center border border-gray-700/50">
+                        <p class="text-3xl font-bold text-white mb-1">
+                            <!-- The element to be counted: starts at 0 and counts up to 425 -->
+                            <span class="counter-number" data-target="425">0</span>+
+                        </p>
+                        <p class="text-sm text-gray-400">Happy Clients</p>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-semibold text-gray-300 mb-4 animate-blur-in-7">My expertise includes:</h3>
+
+                <!-- Expertise Grid (Using Flex for wrapping items) - IMPORTANT: Added 'expertise-grid-container' ID -->
+                <div id="expertise-grid-container" class="flex flex-wrap gap-3 expertise-grid">
+                    <!-- Each item now has the 'expertise-tag-item' class for the new animation -->
+                    
+                    <!-- Item 1: Creative shooting with cinematic harness -->
+                    <div class="px-3 py-2 text-sm text-white bg-indigo-900/50 rounded-full border border-indigo-700/50 hover:bg-indigo-800/60 transition duration-300 shadow-lg expertise-tag-item">
+                        Creative shooting with cinematic harness
+                    </div>
+                    <!-- Item 2: Reels shooting and Short-Form Content Editing -->
+                    <div class="px-3 py-2 text-sm text-white bg-purple-900/50 rounded-full border border-purple-700/50 hover:bg-purple-800/60 transition duration-300 shadow-lg expertise-tag-item">
+                        Reels shooting and Short-Form Content Editing
+                    </div>
+                    <!-- Item 3: Training for individuals in video editing videography -->
+                    <div class="px-3 py-2 text-sm text-white bg-pink-900/50 rounded-full border border-pink-700/50 hover:bg-pink-800/60 transition duration-300 shadow-lg expertise-tag-item">
+                        Training for individuals in video editing videography
+                    </div>
+                    <!-- Item 4: Video Editing & Motion Graphics -->
+                    <div class="px-3 py-2 text-sm text-white bg-blue-900/50 rounded-full border border-blue-700/50 hover:bg-blue-800/60 transition duration-300 shadow-lg expertise-tag-item">
+                        Video Editing & Motion Graphics
+                    </div>
+                    <!-- Item 5: Live Event Production -->
+                    <div class="px-3 py-2 text-sm text-white bg-red-900/50 rounded-full border border-red-700/50 hover:bg-red-800/60 transition duration-300 shadow-lg expertise-tag-item">
+                        Live Event Production
+                    </div>
+                    <!-- Item 6: Building any photography setup -->
+                    <div class="px-3 py-2 text-sm text-white bg-green-900/50 rounded-full border border-green-700/50 hover:bg-green-800/60 transition duration-300 shadow-lg expertise-tag-item">
+                        Building any photography setup
+                    </div>
+                </div>
+
+                <!-- تم تعديل هذا الزر ليصبح رابطًا يمرر الصفحة إلى قسم التواصل (#contact) -->
+                <a href="#contact" class="cta-button mt-8 bg-blue-500 text-white hover:bg-blue-600 transition duration-300 shadow-xl animate-blur-in-7">
+                    Contact Me
+                </a>
+            </div>
+        </section>
+        
+        <!-- 4. Reels Section -->
+        <section id="reels" class="py-16 md:py-24 relative overflow-hidden reels-section-bg">
+            <div class="text-center mb-12 animate-blur-in-8">
+                <!-- Applied Animation 8 -->
+                <p class="text-sm uppercase tracking-widest text-gray-500 mb-2">Reels | Made</p>
+                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-4">My Reels</h2>
+                <p class="text-lg text-gray-400">Bringing stories to life through reels and creative content made for today's audience</p>
+            </div>
+
+            <!-- Reels Carousel Container - Applied Animation 9 -->
+            <div class="relative max-w-7xl mx-auto px-4 animate-blur-in-9">
+    <!-- Reels Content Area (Horizontal Scroll) -->
+    <div class="reels-container" id="reels-container">
+
+        <!-- REEL 1 -->
+        <div class="reel-card">
+            <iframe width="250" height="450" src="https://www.youtube.com/embed/B2eGowzQRow" 
+            title="Reel 1" frameborder="0" allowfullscreen class="w-full h-full object-cover"></iframe>
+        </div>
+
+        <!-- REEL 2 -->
+        <div class="reel-card">
+            <iframe width="250" height="450" src="https://www.youtube.com/embed/e1AF-NHeW0Y"
+            title="Reel 2" frameborder="0" allowfullscreen class="w-full h-full object-cover"></iframe>
+        </div>
+
+        <!-- REEL 3 -->
+        <div class="reel-card">
+            <iframe width="250" height="450" src="https://www.youtube.com/embed/lt6kmb47C5E"
+            title="Reel 3" frameborder="0" allowfullscreen class="w-full h-full object-cover"></iframe>
+        </div>
+
+        <!-- REEL 4 -->
+        <div class="reel-card">
+            <iframe width="250" height="450" src="https://www.youtube.com/embed/LHbOiOBr2eg"
+            title="Reel 4" frameborder="0" allowfullscreen class="w-full h-full object-cover"></iframe>
+        </div>
+
+        <!-- REEL 5 -->
+        <div class="reel-card">
+            <iframe width="250" height="450" src="https://www.youtube.com/embed/RO5pZ9r8jJ4"
+            title="Reel 5" frameborder="0" allowfullscreen class="w-full h-full object-cover"></iframe>
+        </div>
+
+        <!-- REEL 6 -->
+        <div class="reel-card">
+            <iframe width="250" height="450" src="https://www.youtube.com/embed/D3Jsp-kigOQ"
+            title="Reel 6" frameborder="0" allowfullscreen class="w-full h-full object-cover"></iframe>
+        </div>
+
+        <!-- REEL 7 -->
+        <div class="reel-card">
+            <iframe width="250" height="450" src="https://www.youtube.com/embed/w163QmhEOHU"
+            title="Reel 7" frameborder="0" allowfullscreen class="w-full h-full object-cover"></iframe>
+        </div>
+    </div>
+
+    <!-- Glass Scroll Button (LEFT) -->
+    <button class="glass-scroll-button hidden md:flex" id="scroll-left-button" aria-label="Scroll left to view previous reels">
+        <i class="fas fa-chevron-left text-white text-xl"></i>
+    </button>
+    
+    <!-- Glass Scroll Button (RIGHT) -->
+    <button class="glass-scroll-button hidden md:flex" id="scroll-right-button" aria-label="Scroll right to view more reels">
+        <i class="fas fa-chevron-right text-white text-xl"></i>
+    </button>
+</div>
+
+            <!-- Navigation Dots (Visual Indicator Only) - Applied Animation 9 -->
+            <div class="flex justify-center mt-8 nav-dots animate-blur-in-9" id="nav-dots-container">
+                <span id="dot-0" class="active"></span>
+                <span id="dot-1"></span>
+                <span id="dot-2"></span>
+                <span id="dot-3"></span>
+                <span id="dot-4"></span>
+            </div>
+        </section>
+
+
+        <!-- 5. Services Section (What I Make) -->
+        <section id="services" class="py-16 md:py-24 relative overflow-hidden services-section-bg">
+            <div class="text-center mb-12 animate-blur-in-10">
+                <p class="text-sm uppercase tracking-widest mb-2 text-violet-500 font-semibold border-b-2 border-violet-500/50 inline-block px-2">My Services</p>
+                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-4">What I Make</h2>
+                <p class="text-lg text-gray-400">Bringing your stories to life with visuals that inspire and connect.</p>
+            </div>
+
+            <!-- Services Grid Container - Applied Animation 11 -->
+            <div class="max-w-7xl mx-auto px-4 animate-blur-in-11">
+                <div class="services-grid">
+                    
+                    <!-- SERVICE CARD 1: Live Event Coverage (Purple/Indigo Glow) -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-broadcast-tower text-white"></i> <!-- Icon for Live -->
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Live Event Coverage</h3>
+                        <p class="text-sm text-gray-400">Live Coverage & Instant Social Sharing. Your event goes viral as it happens.</p>
+                        <a href="#" class="view-more-link">
+                            View more 
+                            <i class="fas fa-arrow-right ml-2 text-base"></i>
+                        </a>
+                    </div>
+
+                    <!-- SERVICE CARD 2: Studio2Go -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-video text-white"></i> <!-- Icon for Studio/Video -->
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Studio2Go</h3>
+                        <p class="text-sm text-gray-400">A fully-equipped professional studio that comes to you perfect for portraits, interviews, and product shoots anywhere you are.</p>
+                        <a href="#" class="view-more-link">
+                            View more 
+                            <i class="fas fa-arrow-right ml-2 text-base"></i>
+                        </a>
+                    </div>
+
+                    <!-- SERVICE CARD 3: Editing & Motion Graphics -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-cut text-white"></i> <!-- Icon for Editing -->
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Editing & Motion Graphics</h3>
+                        <p class="text-sm text-gray-400">Video That Sells, Motion That Converts.</p>
+                        <a href="#" class="view-more-link">
+                            View more 
+                            <i class="fas fa-arrow-right ml-2 text-base"></i>
+                        </a>
+                    </div>
+
+                    <!-- SERVICE CARD 4: Shooting (Videography/Photography) -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-camera-retro text-white"></i> <!-- Icon for Camera -->
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">Shooting</h3>
+                        <p class="text-sm text-gray-400">We shoot to impress. Professional videography that captures your brand, story, and moments with cinematic precision.</p>
+                        <a href="#" class="view-more-link">
+                            View more 
+                            <i class="fas fa-arrow-right ml-2 text-base"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- 6. Portfolio Section (Other Production Work) -->
+        <section id="portfolio" class="py-16 md:py-24 relative overflow-hidden services-section-bg">
+            <div class="text-center mb-12 animate-blur-in-12">
+                <p class="text-sm uppercase tracking-widest mb-2 text-violet-500 font-semibold border-b-2 border-violet-500/50 inline-block px-2">Other Production Work</p>
+                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-4">My Portfolio</h2>
+                <p class="text-lg text-gray-400">See how ideas turn into visuals</p>
+            </div>
+
+            <!-- Portfolio Grid Container -->
+            <div class="max-w-7xl mx-auto px-4 animate-blur-in-13">
+                <div class="portfolio-grid">
+                    
+                    <!-- PORTFOLIO CARD 1: Royal Norwegian Embassy -->
+                    <div class="portfolio-card">
+                        <!-- Image/Visual for the project (Now 1:1 Aspect Ratio) -->
+                        <div class="portfolio-image-container">
+                            <!-- Placeholder image is now 1:1 -->
+                            <img src="سيل.jpg" alt="Norwegian Embassy Project Visual">
+                        </div>
+                        
+                        <!-- Title and Tags -->
+                        <h3 class="text-lg font-bold text-white mb-2">Wellness Oasis Clinics</h3>
+                        <div class="mb-4">
+                            <span class="portfolio-tag">Videography / Editing
+</span>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="text-sm text-gray-400">
+Worked as a videographer and video editor for Wellness Oasis, a premium medical and wellness clinic brand. Captured and edited lifestyle, treatment, and testimonial videos that highlight the clinic’s holistic approach and luxurious patient experience. Focused on cinematic lighting, smooth pacing, and brand-aligned visuals for social media campaigns.                        </p>
+                    </div>
+
+                    <!-- PORTFOLIO CARD 2: Persona Gurus Campaign (The Circle) -->
+                    <div class="portfolio-card">
+                        <div class="portfolio-image-container">
+                            <img src="dsfae.jpg" alt="Persona Gurus Campaign Visual">
+                        </div>
+                        
+                        <h3 class="text-lg font-bold text-white mb-2">Post & BoostQA</h3>
+                        <div class="mb-4">
+                            <span class="portfolio-tag">Remote Video Editing</span>
+                        </div>
+                        
+                        <p class="text-sm text-gray-400">
+Worked remotely with the Post & BoostQA marketing teams to produce dynamic ad creatives, campaign edits, and motion graphics assets optimized for Meta and TikTok performance marketing.                        </p>
+                    </div>
+
+                    <!-- PORTFOLIO CARD 3: Ministry of Youth and Sports (New Motion App Presentation) -->
+                    <div class="portfolio-card">
+                        <div class="portfolio-image-container">
+                            <img src="jh.jpg" alt="Ministry of Youth and Sports Visual">
+                        </div>
+                        
+                        <h3 class="text-lg font-bold text-white mb-2">El-Okaby </h3>
+                        <div class="mb-4">
+                            <span class="portfolio-tag">Video Editing /Motion Graphics</span>
+                        </div>
+
+                        <p class="text-sm text-gray-400">
+Created promotional and educational video content for El-Okaby Pharmacies. Combined motion graphics, product close-ups, and doctor-style storytelling to communicate medical trust and brand credibility to the Egyptian audience.                        </p>
+                    </div>
+
+                    <!-- PORTFOLIO CARD 4: Logo Animation -->
+                    <div class="portfolio-card">
+                        <div class="portfolio-image-container">
+                            <img src="gf.jpg" alt="Logo Animation Visual">
+                        </div>
+                        
+                        <h3 class="text-lg font-bold text-white mb-2">val Egypt</h3>
+                        <div class="mb-4">
+                            <span class="portfolio-tag">Video Editing / Motion Graphics
+</span>
+                        </div>
+
+                        <p class="text-sm text-gray-400">
+Edited and produced multiple ad campaigns for VAL, a leading Egyptian cosmetics brand. Handled creative direction, storytelling, and visual design for product launches across social media platforms, focusing on beauty, confidence, and lifestyle appeal.                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        
+        <!-- 7. Contact Section (Contact Form & Info Cards) - UPDATED CONTENT -->
+        <section id="contact" class="py-16 md:py-24 relative overflow-hidden contact-section-bg">
+            
+            <div class="max-w-7xl mx-auto px-4">
+                
+                <!-- Main Grid Layout for Form and Info Cards -->
+                <div class="contact-grid">
+                    
+                    <!-- Left Side: Contact Form -->
+                    <div class="w-full form-container animate-blur-in-14">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-2">Let's Discuss</h2>
+                        <p class="text-gray-400 mb-8">Every great project starts with a simple conversation. Let's make something amazing together!</p>
+                        
+                        <!-- تم إضافة ID للفورم وتعديل الـ action و onsubmit -->
+                        <form id="contactForm" action="#" onsubmit="return handleMailtoSubmission(event)" class="space-y-6">
+                            <!-- Name and Email Row -->
+                            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 contact-form-row">
+                                <div class="w-full sm:w-1/2">
+                                    <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Name*</label>
+                                    <input type="text" id="name" name="name" required class="contact-input" placeholder="Name*">
+                                </div>
+                                <div class="w-full sm:w-1/2">
+                                    <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Your Email*</label>
+                                    <input type="email" id="email" name="email" required class="contact-input" placeholder="Email*">
+                                </div>
+                            </div>
+
+                            <!-- Phone Input -->
+                            <div class="w-full">
+                                <label for="phone" class="block text-sm font-medium text-gray-300 mb-1">Your Phone</label>
+                                <input type="tel" id="phone" name="phone" class="contact-input" placeholder="Phone">
+                            </div>
+
+                            <!-- Message Textarea -->
+                            <div class="w-full">
+                                <label for="message" class="block text-sm font-medium text-gray-300 mb-1">Message*</label>
+                                <textarea id="message" name="message" rows="6" required class="contact-input" placeholder="Message*"></textarea>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="cta-button bg-blue-500 text-white hover:bg-blue-600 transition duration-300 shadow-xl inline-flex items-center space-x-2">
+                                <span>Send Message</span>
+                                <i class="fas fa-paper-plane text-lg"></i>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Right Side: Contact Info Cards -->
+                    <div class="w-full mt-10 md:mt-0 space-y-4">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-6">Let's Talk With Me</h2>
+                        
+                        <!-- Info Card 1: Phone -->
+                        <div class="info-card flex items-start">
+                            <div class="info-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-medium text-gray-300">Phone</h3>
+                                <!-- UPDATED PHONE NUMBER (from previous step) -->
+                                <p class="text-lg text-white font-semibold">01091339187</p>
+                            </div>
+                        </div>
+
+                        <!-- Info Card 2: Email -->
+                        <div class="info-card flex items-start">
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-medium text-gray-300">Mail</h3>
+                                <!-- UPDATED EMAIL (from previous step) -->
+                                <p class="text-lg text-white font-semibold">abdalla7.ramadan57@gmail.com</p>
+                            </div>
+                        </div>
+
+                        <!-- Info Card 3: Location -->
+                        <div class="info-card flex items-start">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-base font-medium text-gray-300">Location</h3>
+                                <!-- UPDATED LOCATION (from previous step) -->
+                                <p class="text-lg text-white font-semibold">Egypt</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <footer class="p-4 text-center text-gray-600 text-sm mt-10">
+        <p>Copyright &copy; 2024 Abdullah Ramadan. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Counter Animation, Reels Scroll, Expertise Tags Animation, AND NEW MAILTO LOGIC -->
+    <script>
+        // Global variable to track the current active reel/dot
+        let currentReelIndex = 0; 
+        // Get all navigation dots
+        let navDots = [];
+        // The total number of reels that correspond to the dots (5 dots created in HTML)
+        const totalDots = 5; 
+
+        /**
+         * UPDATED: Smooth scroll to target sections when using internal links.
+         * This uses CSS to handle scrolling animation smoothly.
+         */
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // Only prevent default if the target section actually exists
+                if (document.querySelector(this.getAttribute('href'))) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        /**
+         * NEW FUNCTION: Handles the form submission to open the mail client via mailto: protocol.
+         * @param {Event} event - The form submission event.
+         */
+        const handleMailtoSubmission = (event) => {
+            // منع الإرسال الافتراضي للفورم لمنع تحديث الصفحة
+            event.preventDefault(); 
+
+            // جمع البيانات من حقول الفورم
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+            
+            // عنوان البريد الإلكتروني المستهدف
+            const targetEmail = 'abdalla7.ramadan57@gmail.com'; 
+            
+            // صياغة الموضوع
+            const subject = `New Inquiry from Portfolio: ${name}`;
+            
+            // صياغة جسم الرسالة (Body)
+            const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}\n\n---\nSent from Portfolio Contact Form`;
+
+            // بناء رابط الـ mailto مع تشفير المكونات
+            const mailtoUrl = `mailto:${targetEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            // فتح تطبيق البريد الإلكتروني في نافذة جديدة
+            window.open(mailtoUrl, '_blank');
+            
+            // رسالة تنبيه بسيطة (يمكن استبدالها بمودال احترافي)
+            console.log('Opening mail client...');
+            // يمكنك إضافة خطوة لمسح الفورم هنا بعد الإرسال الناجح:
+            // document.getElementById('contactForm').reset();
+            
+            return false; // منع الإرسال الافتراضي للفورم
+        };
+
+
+        /**
+         * Updates the visual state of the navigation dots to reflect the current index.
+         * @param {number} newIndex - The index of the dot to make active.
+         */
+        const updateNavigationDots = (newIndex) => {
+            // Ensure the index is within the valid range
+            if (newIndex >= 0 && newIndex < totalDots) {
+                // Remove 'active' class from the current active dot
+                if (navDots[currentReelIndex]) {
+                    navDots[currentReelIndex].classList.remove('active');
+                }
+                
+                // Add 'active' class to the new active dot
+                navDots[newIndex].classList.add('active');
+                
+                // Update the global index
+                currentReelIndex = newIndex;
+            }
+        };
+
+
+        /**
+         * The digital counter function (Counter Animation)
+         * Uses requestAnimationFrame for smooth movement.
+         * @param {HTMLElement} element - The HTML element whose count will be updated.
+         */
+        const countUp = (element) => {
+            const target = +element.getAttribute('data-target');
+            const duration = 2000; // 2 seconds duration
+            let start = 0;
+            
+            if (isNaN(target)) return;
+
+            const step = (timestamp) => {
+                if (!start) start = timestamp;
+                const progress = timestamp - start;
+                // Calculate the percentage of time elapsed (clamped at 1)
+                const percentage = Math.min(progress / duration, 1);
+                // Calculate the current value based on the elapsed percentage
+                const currentValue = Math.floor(percentage * target);
+
+                // Update the text content
+                element.textContent = currentValue.toLocaleString('en-US');
+
+                // Continue the animation if not yet finished
+                if (percentage < 1) {
+                    window.requestAnimationFrame(step);
+                }
+                // Optional: For the last step, ensure the target number is displayed exactly
+                if (percentage === 1) {
+                    element.textContent = target.toLocaleString('en-US');
+                }
+            };
+
+            window.requestAnimationFrame(step);
+        };
+
+        /**
+         * Initialize the IntersectionObserver
+         * to trigger counters when the 'About Me' section enters the viewport.
+         * This function now also calls initializeExpertiseTagsAnimation.
+         */
+        const initializeCounters = () => {
+            // We observe the parent container which is the 'about' section
+            const aboutSection = document.getElementById('about');
+            let countersTriggered = false; // Flag to ensure it runs only once
+
+            const observerOptions = {
+                root: null, // relative to the viewport
+                threshold: 0.2 // Trigger when 20% of the target is visible
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    // Check if the section is intersecting AND the counters haven't run yet
+                    if (entry.isIntersecting && !countersTriggered) {
+                        countersTriggered = true;
+                        console.log('About section visible, starting counters & expertise tags animation.'); // Console log for debugging
+                        const counterElements = document.querySelectorAll('.counter-number');
+                        counterElements.forEach(countUp);
+                        
+                        // NEW: Trigger the expertise tags animation
+                        initializeExpertiseTagsAnimation();
+
+                        // Stop observing after the counters and tags animation starts
+                        observer.unobserve(aboutSection);
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+            if (aboutSection) {
+                observer.observe(aboutSection);
+            }
+        };
+
+        /**
+         * NEW FUNCTION: Applies staggered animation delay to the expertise tags
+         * when the 'About Me' section is visible.
+         */
+        const initializeExpertiseTagsAnimation = () => {
+            const container = document.getElementById('expertise-grid-container');
+            if (!container) return;
+            
+            // Get all children that have the expertise-tag-item class
+            const tags = container.querySelectorAll('.expertise-tag-item');
+
+            tags.forEach((tag, index) => {
+                // Apply a staggered delay for each tag (e.g., 0.1s delay per tag)
+                const delay = index * 0.15; // 150ms delay between each tag
+                
+                // We set the animation-delay property directly on the style
+                tag.style.animationDelay = `${delay}s`;
+                // Add the animation-name to officially start the animation,
+                // as the class only defines the keyframes and initial state.
+                tag.style.animationName = 'slide-in-right'; 
+            });
+        };
+        
+        /**
+         * Smooth horizontal scrolling logic for the Reels section
+         */
+        const initializeReelsScroll = () => {
+            const container = document.getElementById('reels-container');
+            const scrollRightButton = document.getElementById('scroll-right-button');
+            const scrollLeftButton = document.getElementById('scroll-left-button');
+            
+            // Populate the navDots array
+            const dotsContainer = document.getElementById('nav-dots-container');
+            if (dotsContainer) {
+                navDots = Array.from(dotsContainer.children);
+            }
+
+
+            if (!container || !scrollRightButton || !scrollLeftButton) return;
+            
+            // Function to calculate the scroll amount (width of ONE card + gap)
+            const getScrollAmount = () => {
+                const card = container.querySelector('.reel-card');
+                if (!card) return 0;
+                // Get card width (250px) plus the gap (1.5rem = 24px)
+                return card.offsetWidth + 24; 
+            };
+
+            // Scroll Right Handler
+            scrollRightButton.addEventListener('click', () => {
+                const scrollAmount = getScrollAmount();
+                
+                // Only scroll and update dot if we are not at the end
+                if (currentReelIndex < totalDots - 1) {
+                    container.scrollBy({
+                        left: scrollAmount,
+                        behavior: 'smooth'
+                    });
+                    updateNavigationDots(currentReelIndex + 1);
+                }
+            });
+
+            // Scroll Left Handler
+            scrollLeftButton.addEventListener('click', () => {
+                const scrollAmount = getScrollAmount();
+                
+                // Only scroll and update dot if we are not at the start
+                if (currentReelIndex > 0) {
+                    container.scrollBy({
+                        left: -scrollAmount, 
+                        behavior: 'smooth'
+                    });
+                    updateNavigationDots(currentReelIndex - 1);
+                }
+            });
+
+            // Add event listeners to the dots themselves to jump to position (Optional)
+            navDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    if (index !== currentReelIndex) {
+                        const card = container.querySelector('.reel-card');
+                        if (!card) return;
+                        // Calculate the scroll position needed to bring the target card into view
+                        const cardWidth = card.offsetWidth;
+                        const gap = 24; // 1.5rem gap
+                        const scrollPosition = index * (cardWidth + gap);
+                        
+                        container.scrollTo({
+                            left: scrollPosition,
+                            behavior: 'smooth'
+                        });
+
+                        updateNavigationDots(index);
+                    }
+                });
+            });
+            
+        };
+
+
+        // Run initialization functions when the page loads
+        window.addEventListener('load', () => {
+            // Initialize the counter observer first (which now handles the tags animation too)
+            initializeCounters();
+            // Initialize the reels scroll logic
+            initializeReelsScroll();
+        });
+    </script>
+
+</body>
+</html>
