@@ -22,6 +22,9 @@
             /* Add a subtle blurred background effect to simulate the original image */
             background-image: radial-gradient(circle at 50% 10%, rgba(20, 20, 30, 0.9) 0%, rgba(0, 0, 0, 1) 70%);
             min-height: 100vh;
+            
+            /* NEW: Add smooth scroll behavior for internal links */
+            scroll-behavior: smooth; 
         }
 
         /* NEW: Highlight Box Style - Soft rounded background for key text */
@@ -582,12 +585,14 @@
         /* Responsive adjustments for mobile screens */
         @media (max-width: 768px) {
             .hero-section-grid {
-                flex-direction: column;
+                /* NEW: Added flex-col-reverse so image comes first on mobile */
+                flex-direction: column-reverse; 
                 align-items: center;
                 text-align: center;
             }
             .hero-text {
-                padding-top: 2rem;
+                /* NEW: Reduced top padding for better space usage */
+                padding-top: 1rem; 
                 padding-left: 0;
             }
             /* Styling for the mobile social bar when visible */
@@ -620,8 +625,13 @@
             }
             /* Reels mobile specific adjustments */
             .reel-card {
-                width: 220px; 
-                height: 420px;
+                /* NEW: Use a percentage of viewport width for better scaling */
+                width: 70vw; 
+                height: 120vw; /* Approx 16:9 vertical aspect ratio (70vw * 1.7) */
+            }
+            /* NEW: Ensure reels container uses full width minus padding for better touch area */
+            .reels-container {
+                padding: 1rem 1rem;
             }
             .glass-scroll-button {
                 display: none; /* Hide buttons on mobile, rely on touch scroll */
@@ -642,10 +652,12 @@
                 gap: 1rem; /* Add space between stacked inputs */
             }
         }
+        
         /* Grid for services on desktop */
         .services-grid, .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            /* NEW: Use repeat(auto-fit, minmax(...)) for more responsive grid flow */
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
         }
         /* Grid for contact section on desktop */
@@ -657,10 +669,52 @@
 
 
         @media (min-width: 768px) and (max-width: 1024px) {
+            /* This is now handled by the auto-fit rule above, but kept as a fallback */
+            /*
             .services-grid, .portfolio-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+            */
+            /* NEW: Adjust image size on tablets for more space for text */
+            .profile-img-container {
+                padding: 0 1rem;
+            }
+            .profile-img {
+                 max-width: 100%;
+            }
         }
+        
+        /* === Mobile tweaks without visual change (keeping the original block) === */
+
+/* منع أي سكرول أفقي عشوائي */
+html, body { overflow-x: hidden; }
+
+/* صور/فريمات تتمدد جوّا الكروت من غير ما تخرج */
+img, video { max-width: 100%; height: auto; }
+.reel-card iframe { width: 100%; height: 100%; display: block; }
+
+/* شريط الناف بار يكون قابل للتمرير في الشاشات الضيقة بدل ما يلف سطرين */
+@media (max-width: 420px) {
+  header nav { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  header nav::-webkit-scrollbar { display: none; }
+}
+
+/* هوامش/بَدّينغ أهدى على الموبايل الصغير قوي */
+@media (max-width: 360px) {
+  .cta-button { padding: 0.6rem 1rem; }
+  .reel-card { width: 75vw; height: calc(75vw * 1.8); } /* نفس النِسَب عمودي */
+}
+
+/* راحة في السحب داخل الريلز + ماينقصش أول وآخر كارت */
+#reels-container { 
+    /* NEW: Adjusted scroll padding to match the new 1rem padding in the container */
+    scroll-padding-left: 1rem; 
+    scroll-padding-right: 1rem; 
+}
+
+/* لو كلمة طويلة في التاجز/العناوين ما تكسّرش الليّاوت */
+.expertise-grid, .service-card, .portfolio-card, h1, h2, h3, p { word-wrap: break-word; overflow-wrap: anywhere; }
+
     </style>
 </head>
 <body class="antialiased">
@@ -1190,7 +1244,8 @@ Edited and produced multiple ad campaigns for VAL, a leading Egyptian cosmetics 
 
         /**
          * UPDATED: Smooth scroll to target sections when using internal links.
-         * This uses CSS to handle scrolling animation smoothly.
+         * Note: The smooth scroll is primarily handled by CSS property 'scroll-behavior: smooth;' on the body,
+         * so the JS only prevents default for safety, but we don't need complex scrollIntoView logic here anymore.
          */
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1382,9 +1437,31 @@ Edited and produced multiple ad campaigns for VAL, a leading Egyptian cosmetics 
             const getScrollAmount = () => {
                 const card = container.querySelector('.reel-card');
                 if (!card) return 0;
-                // Get card width (250px) plus the gap (1.5rem = 24px)
-                return card.offsetWidth + 24; 
+                // Get card width (250px on desktop) plus the gap (1.5rem = 24px)
+                // We use getBoundingClientRect().width to get the current computed width on mobile
+                const cardWidth = card.getBoundingClientRect().width;
+                const gap = 24; // 1.5rem gap
+                return cardWidth + gap; 
             };
+
+            // Function to calculate the closest reel index based on current scroll position
+            const getClosestReelIndex = () => {
+                const scrollLeft = container.scrollLeft;
+                const card = container.querySelector('.reel-card');
+                if (!card) return 0;
+                const cardWidth = card.getBoundingClientRect().width;
+                const gap = 24; // 1.5rem gap
+                
+                // Calculate the position of the center of the first visible card
+                const centerOffset = scrollLeft + container.clientWidth / 2;
+                
+                // Approximate the index of the closest card
+                const closestIndex = Math.round(scrollLeft / (cardWidth + gap));
+                
+                // Clamp the index within the valid range
+                return Math.min(Math.max(0, closestIndex), totalDots - 1);
+            };
+
 
             // Scroll Right Handler
             scrollRightButton.addEventListener('click', () => {
@@ -1396,7 +1473,10 @@ Edited and produced multiple ad campaigns for VAL, a leading Egyptian cosmetics 
                         left: scrollAmount,
                         behavior: 'smooth'
                     });
-                    updateNavigationDots(currentReelIndex + 1);
+                    // Wait briefly for scroll to finish before updating dot (optional, but smoother visually)
+                    setTimeout(() => {
+                        updateNavigationDots(getClosestReelIndex());
+                    }, 300); 
                 }
             });
 
@@ -1410,18 +1490,21 @@ Edited and produced multiple ad campaigns for VAL, a leading Egyptian cosmetics 
                         left: -scrollAmount, 
                         behavior: 'smooth'
                     });
-                    updateNavigationDots(currentReelIndex - 1);
+                    // Wait briefly for scroll to finish before updating dot
+                    setTimeout(() => {
+                        updateNavigationDots(getClosestReelIndex());
+                    }, 300);
                 }
             });
 
-            // Add event listeners to the dots themselves to jump to position (Optional)
+            // Add event listeners to the dots themselves to jump to position
             navDots.forEach((dot, index) => {
                 dot.addEventListener('click', () => {
                     if (index !== currentReelIndex) {
                         const card = container.querySelector('.reel-card');
                         if (!card) return;
                         // Calculate the scroll position needed to bring the target card into view
-                        const cardWidth = card.offsetWidth;
+                        const cardWidth = card.getBoundingClientRect().width;
                         const gap = 24; // 1.5rem gap
                         const scrollPosition = index * (cardWidth + gap);
                         
@@ -1433,6 +1516,15 @@ Edited and produced multiple ad campaigns for VAL, a leading Egyptian cosmetics 
                         updateNavigationDots(index);
                     }
                 });
+            });
+
+            // NEW: Update dots when user scrolls manually (especially for mobile touch)
+            container.addEventListener('scroll', () => {
+                 // Debounce scroll event to avoid rapid updates
+                 clearTimeout(container.scrollTimeout);
+                 container.scrollTimeout = setTimeout(() => {
+                     updateNavigationDots(getClosestReelIndex());
+                 }, 150);
             });
             
         };
